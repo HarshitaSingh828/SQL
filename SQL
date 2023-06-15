@@ -1,0 +1,124 @@
+SHOW DATABASES;
+use db1;
+CREATE TABLE TEST( Rollno int NOT NULL, Name Varchar(100), Class Varchar(10));
+INSERT INTO TEST(Rollno,Name,Class)
+    ->  VALUES(1,"harshita","12");
+    
+Select * from test;
+
+INSERT INTO TEST(Rollno,Name,Class)
+    ->  VALUES(1,null,"12");
+    
+ Select * from test;
+ 
+ create table test2(rollno int , name varchar(100), class varchar(10));
+ 
+ Insert into test2(rollno, name, class)
+    -> Values(null, "singh", "11");
+    
+    
+ Select * from test2;
+ Delete from test2;
+ ALTER TABLE test2 MODIFY COLUMN rollno INT NOT NULL;
+ 
+ <--------------------------------------------------------------------------------->
+ Unique constraint
+ 
+ CREATE TABLE TestUnique(Rollno int unique, name varchar(100), class varchar(10));
+  Insert into TestUnique(rollno, name, class)
+    -> values(1,"p","2");
+    
+ Insert into TestUnique(rollno, name, class)
+    ->  values(1,"r","3");
+ERROR 1062 (23000): Duplicate entry '1' for key 'testunique.Rollno'
+
+ALTER TABLE TestUnique ADD Constraint UNIQUEROLLNO UNIQUE(Rollno);
+
+<------------------------------------------------------------------------------->
+primary constraints
+
+CREATE TABLE DEMOSPK(rollno INT PRIMARY KEY, name varchar(100) PRIMARY KEY, city varchar(10));
+
+CREATE TABLE DEMOSPK(rollno INT UNIQUE KEY, name varchar(100) UNIQUE KEY, city varchar(10));
+Query OK, 0 rows affected (0.04 sec)
+
+CREATE TABLE DPK(rollno INT PRIMARY KEY, name VARCHAR(100), city VARCHAR(100));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO DPK(rollno, name, city)
+    -> VALUES(null, "b","1");
+ERROR 1048 (23000): Column 'rollno' cannot be null
+
+
+ INSERT INTO DPK(rollno, name, city)
+    -> VALUES(1, "b","1");
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  INSERT INTO DPK(rollno, name, city)
+    ->  VALUES(1, "b","1");
+ERROR 1062 (23000): Duplicate entry '1' for key 'dpk.PRIMARY'
+
+<---------------------------------------------------------------------------------------->
+Check constraints
+CREATE TABLE DPK(rollno INT PRIMARY KEY, name VARCHAR(100), city VARCHAR(100));
+Query OK, 0 rows affected (0.04 sec)
+INSERT INTO democheck(rollno, age)
+    -> VALUES(1, 35);
+Query OK, 1 row affected (0.02 sec)
+
+INSERT INTO democheck(rollno, age)
+    -> VALUES(1, 50);
+ERROR 3819 (HY000): Check constraint 'democheck_chk_1' is violated.
+
+
+<------------------------------------------------------------------------------------------->
+CREATE TABLE DEMODEFAULT(rollno INT NOT NULL , age INT DEFAULT 22);
+ INSERT INTO DEMODEFAULT(rollno, age)
+    -> VALUES(1,null);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM DEMODEFAULT;
+
+ INSERT INTO DEMODEFAULT(rollno)
+    -> VALUES(1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM DEMODEFAULT;
+
+<--------------------------------------------------------------------------------------------------->
+foreign key 
+CREATE TABLE STUDENTSPK(ROLLNO INT PRIMARY KEY);
+Query OK, 0 rows affected (0.15 sec)
+
+CREATE TABLE STUDENTSMARKFK (ROLLNO INT,  SCIENCE INT, MATHS INT,     ENG INT, FOREIGN KEY (ROLLNO) REFERENCES STUDENTSPK(ROLLNO));
+Query OK, 0 rows affected (0.07 sec)
+    
+ INSERT INTO STUDENTSMARKFK(ROLLNO, SCIENCE, MATHS, ENG)
+    ->  VALUES(1,90,85,94);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`db1`.`studentsmarkfk`, CONSTRAINT `studentsmarkfk_ibfk_1` FOREIGN KEY (`ROLLNO`) REFERENCES `studentspk` (`ROLLNO`))    
+ 
+ INSERT INTO STUDENTSPK(ROLLNO)
+    -> VALUES(1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  INSERT INTO STUDENTSMARKFK(ROLLNO, SCIENCE, MATHS, ENG)
+    -> VALUES(1,90,85,94);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM STUDENTSPK;
++--------+
+| ROLLNO |
++--------+
+|      1 |
++--------+
+1 row in set (0.03 sec)
+
+mysql> SELECT * FROM STUDENTSMARKFK;
++--------+---------+-------+------+
+| ROLLNO | SCIENCE | MATHS | ENG  |
++--------+---------+-------+------+
+|      1 |      90 |    85 |   94 |
++--------+---------+-------+------+
+1 row in set (0.00 sec)
+
+mysql>
