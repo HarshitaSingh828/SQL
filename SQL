@@ -121,4 +121,13 @@ mysql> SELECT * FROM STUDENTSMARKFK;
 +--------+---------+-------+------+
 1 row in set (0.00 sec)
 
-mysql>
+mysql>  CREATE VIEW VIEW_NAME AS SELECT CNAME, CEMAIL FROM CUSTOMERS WHERE CID > 2;
+Query OK, 0 rows affected (0.05 sec)
+
+SELECT * FROM VIEW_NAME;
++----------------+-----------------+
+| CNAME          | CEMAIL          |
++----------------+-----------------+
+| thapa          | thapa@thapa.com |
+| thapatechnical | tt@thapa.com    |
++----------------+-----------------+
