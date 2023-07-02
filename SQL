@@ -131,3 +131,171 @@ SELECT * FROM VIEW_NAME;
 | thapa          | thapa@thapa.com |
 | thapatechnical | tt@thapa.com    |
 +----------------+-----------------+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+BASICS
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| db1                |
+| information_schema |
+| mp                 |
+| mysql              |
+| performance_schema |
+| st                 |
+| st252              |
+| sys                |
++--------------------+
+8 rows in set (0.12 sec)
+
+mysql> CREATE DATABASE DB2;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> DROP DATABASE DB2;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE DATABASE DB2;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE DB2;
+Database changed
+mysql> CREATE TABLE PERSON( PERSON_NAME VARCHAR(255), FIRST_NAME VARCHAR(255), LAST_NAME VARCHAR(255), PERSON_ID INT);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> SELECT * FROM PERSON;
+Empty set (0.01 sec)
+
+mysql> CREATE TABLE PERSONS AS SELECT FIRST_NAME, LAST_NAME FROM PERSON;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO PERSONS(FIRST_NAME, LAST_NAME)
+    -> VALUES("HARSHITA", "SINGH");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PERSONS(FIRST_NAME, LAST_NAME)
+    -> VALUES("KANIKA","T");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM PERSONS;
++------------+-----------+
+| FIRST_NAME | LAST_NAME |
++------------+-----------+
+| HARSHITA   | SINGH     |
+| KANIKA     | T         |
++------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> TRUNCATE TABLE PERSONS;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> SELECT * FROM PERSONS;
+Empty set (0.00 sec)
+
+mysql> DROP TABLE PERSONSL
+    -> ^C
+mysql> DROP TABLE PERSONS;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SELECT * FROM PERSONS;
+ERROR 1146 (42S02): Table 'db2.persons' doesn't exist
+mysql> SELECT * FROM PERSONS^Z^Z^Z^C
+mysql> DROP TABLE PERSONS;^C
+mysql> INSER
+    -> ^C
+mysql> INSERT INTO PERSON(PERSON_NAME,FIRST_NAME,LAST_NAME,PERSON_ID)
+    -> VALUES("HARSHITASINGH", "HARSHITA", "SINGH", 106);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PERSON(PERSON_NAME,FIRST_NAME,LAST_NAME,PERSON_ID)
+    ->  VALUES("KANIKATHAPLIYAL", "KANIKA", "THAPLIYAL", 126);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  INSERT INTO PERSON(PERSON_NAME,FIRST_NAME,LAST_NAME,PERSON_ID)
+    ->  VALUES("YUVRAJPANDEY", "YUVRAJ", "PANDEY", 107);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM PERSON;
++-----------------+------------+-----------+-----------+
+| PERSON_NAME     | FIRST_NAME | LAST_NAME | PERSON_ID |
++-----------------+------------+-----------+-----------+
+| HARSHITASINGH   | HARSHITA   | SINGH     |       106 |
+| KANIKATHAPLIYAL | KANIKA     | THAPLIYAL |       126 |
+| YUVRAJPANDEY    | YUVRAJ     | PANDEY    |       107 |
++-----------------+------------+-----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE PERSON
+    -> ADD EMAIL VARCHAR(255);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO PERSON(PERSON_NAME,FIRST_NAME,LAST_NAME,PERSON_ID,EMAIL)
+    ->  VALUES("YUVRAJPANDEY", "YUVRAJ", "PANDEY", 107,"yuvraj@gmail.com");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM PERSON;
++-----------------+------------+-----------+-----------+------------------+
+| PERSON_NAME     | FIRST_NAME | LAST_NAME | PERSON_ID | EMAIL            |
++-----------------+------------+-----------+-----------+------------------+
+| HARSHITASINGH   | HARSHITA   | SINGH     |       106 | NULL             |
+| KANIKATHAPLIYAL | KANIKA     | THAPLIYAL |       126 | NULL             |
+| YUVRAJPANDEY    | YUVRAJ     | PANDEY    |       107 | NULL             |
+| YUVRAJPANDEY    | YUVRAJ     | PANDEY    |       107 | yuvraj@gmail.com |
++-----------------+------------+-----------+-----------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> ALTER TABLE PERSON
+    -> RENAME COLUMN EMAIL TO SEMAIL;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM PERSON;
++-----------------+------------+-----------+-----------+------------------+
+| PERSON_NAME     | FIRST_NAME | LAST_NAME | PERSON_ID | SEMAIL           |
++-----------------+------------+-----------+-----------+------------------+
+| HARSHITASINGH   | HARSHITA   | SINGH     |       106 | NULL             |
+| KANIKATHAPLIYAL | KANIKA     | THAPLIYAL |       126 | NULL             |
+| YUVRAJPANDEY    | YUVRAJ     | PANDEY    |       107 | NULL             |
+| YUVRAJPANDEY    | YUVRAJ     | PANDEY    |       107 | yuvraj@gmail.com |
++-----------------+------------+-----------+-----------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> ALTER TABLE PERSON;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> ALTER TABLE PERSON DROP COLUMN SEMAIL;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM PERSON;
++-----------------+------------+-----------+-----------+
+| PERSON_NAME     | FIRST_NAME | LAST_NAME | PERSON_ID |
++-----------------+------------+-----------+-----------+
+| HARSHITASINGH   | HARSHITA   | SINGH     |       106 |
+| KANIKATHAPLIYAL | KANIKA     | THAPLIYAL |       126 |
+| YUVRAJPANDEY    | YUVRAJ     | PANDEY    |       107 |
+| YUVRAJPANDEY    | YUVRAJ     | PANDEY    |       107 |
++-----------------+------------+-----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
